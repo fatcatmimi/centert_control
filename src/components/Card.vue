@@ -1,34 +1,40 @@
 <template>
-    <div class="content">
+    <dv-border-box-10 class="content">
         <div class="title">{{title}}</div>
-        <hr>
+ 
         <div class="num">
             {{ num | thounds }}
         </div>
-    </div>
+    </dv-border-box-10>
+ 
+
 </template>
 
 <script>
 
 export default {
     name: 'ShowCard',
-    props: ['title','num'],
+    props: ['title', 'num'],
+ 
 }
 </script>
 
 <style scoped>
+
     .content{
         position:relative;
         width:150px;
         height:100px;
-        padding:15px;
+        /* padding:15px; */
         color:white;
         border-radius: 10px;
         background:#003399;
-        box-shadow:5px 5px 5px #888888;
+        /* box-shadow:5px 5px 5px #888888; */
         overflow: hidden
     }
     .title{
+        height:50px;
+        line-height: 50px;
         text-align: center;
         font-size:16px;
         font-weight: bold;

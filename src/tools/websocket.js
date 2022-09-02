@@ -12,16 +12,19 @@ export default class {
         this.socket.onmessage = this.message.bind(this)
     }
     error() {
+        if (this.reopenTimes == 5) {
+            this.errorCallBack()
+        }
         this.socket.close()
     }
     open() {
-        console.log('socket连接成功')
         this.reopenTimes = 0
+        this.successCallBack()
     }
     close() {
-        if (this.reopenTimes <= 5) {
+        this.reopenTimes++
+        if (this.reopenTimes < 5) {
             setTimeout(() => {
-                this.reopenTimes++
                 this.init()
             }, 5000);
         }

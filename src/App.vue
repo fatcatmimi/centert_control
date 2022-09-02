@@ -1,78 +1,62 @@
 <template>
   <div id="app">
-    <ContentComponent></ContentComponent>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ContentComponent from './components/Content'
-import Ws from '@/tools/websocket'
 import StoreConst from '@/store/StoreConst'
+import {mapActions} from 'vuex'
 export default {
   name: 'App',
-  components: {
-    ContentComponent
+  beforeMount() { 
+    this.baseData('20220902')
   },
-  methods: {
-    createWebSocket() {
-      this.webSocket = new Ws("ws://10.202.100.148:8000/ws?userId=2021639")
-      this.webSocket.callback =(msg) => {
-        let data = JSON.parse(msg.data)
-        console.log(data)
-        if (data.msgType == 69) {
-          this.$store.dispatch(`${StoreConst.TurnOverStore}/updateTurnOverData`, data.msg)
-        } else if (data.msgType == 68) {
-          this.$store.dispatch(`${StoreConst.CardStore}/updateCardData`, data.msg)
-        }
-      }
-    },
-  },
-
-  mounted() {
-    this.createWebSocket()
-  },
-  destroyed() {
-    this.webSocket.socket.close()
+  methods: { 
+    ...mapActions(`${StoreConst.BaseStore}`, ['baseData'])
   }
 }
 </script>
 
 <style>
-
    .container {
-      margin-top:20px;
-      padding: 30px;
+      /* margin-top:20px; */
+      padding: 10px 15px;
+      /* border:1px solid green; */
       width: 600px;
-      display: inline-block;
+      /* display: inline-block; */
       height:350px;
       /* min-height: 350px;
       max-height:500px;  */
-      background: url('~@/assets/img/jamb.png') no-repeat center;
-      background-size: 100% 100%;
-      overflow: hidden;
-    }
-
-    .container-table {
-      height: 500px !important
+      /* background: url('~@/assets/img/jamb.png') no-repeat center;
+      background-size: 100% 100%; */
+      overflow: auto;
     }
 
     .container .title{
       /* min-width:130px; */
       text-align: center;
-      width:130px;
-      height:30px;
+      width:150px;
+      height:25px;
       font-size:16px;
       font-weight: 30;
       background: url('~@/assets/img/frame_upper.png'), url('~@/assets/img/frame_down.png');
       background-repeat: no-repeat, no-repeat;
       background-position: top right, left bottom;
-      margin-bottom: 15px;
+      /* margin: 15px; */
     }
 
-    .container .table-area {
-        height: 350px;
-        overflow: auto
-      }
+    .container .main_area {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      margin: auto;
+    
+    }
+
     .el-table::before{
         background-color: transparent!important;
     }
@@ -94,7 +78,8 @@ export default {
     }
 
     .el-table__empty-block{
-      background-color:rgb(0,28,97)
+      /* background-color:rgb(0,28,97) */
+      background-color: #001149
     }
     .el-table__empty-block span{
       color:#ddd

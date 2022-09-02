@@ -1,13 +1,19 @@
 <template>
     <div class="container">
-        <div class="title">实时开户人数</div>
-        <ul class="fp-box" style="margin-top:15%">
-            <!-- 需要显示6列 -->
-            <li ref="li" v-for="i in 7" :key="i">
-                <!-- 每列中的10行数字 -->
-                <span v-for="num in 10" :key="num">{{ num - 1 }}</span>
-            </li>
-        </ul>
+        <div class="title">实时收钱</div>
+ 
+        <div class="main_area">
+            <div>
+                <ul class="fp-box">
+                    <!-- 需要显示6列 -->
+                    <li ref="li" v-for="i in 9" :key="i">
+                        <!-- 每列中的10行数字 -->
+                        <span v-for="num in 10" :key="num">{{ num - 1 }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+ 
     </div>
 </template>
 
@@ -19,7 +25,7 @@ export default {
         return {
             numberArr: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], //固定每列中的19行数字
             // numStr: "", // 需要展示的数字字符串
-            numArr: [0, 0, 0, 0, 0, 0, 0] ,//默认展示6个数字数组
+            numArr: [0, 0, 0, 0, 0, 0, 0,0,0] ,//默认展示6个数字数组
         };
     },
     methods: {
@@ -27,7 +33,7 @@ export default {
             this.numArr = this.numStr.split("");
             let numArrlen = this.numArr.length;
             // 展示数字的处理，不够6位前面补0
-            for (let i = 0; i < 7 - numArrlen; i++) {
+            for (let i = 0; i < 10 - numArrlen; i++) {
                 this.numArr.unshift(0);
             }
             this.$refs.li.forEach((item, index) => {
@@ -51,16 +57,15 @@ export default {
 
 <style  scoped>
 
-
-* {
-    margin: 0;
-    padding: 0;
+.main_area{
+    height:22%
 }
-
 .fp-box {
+    width:100%;
     display: flex;
     overflow: hidden;
-    justify-content:space-around;
+    justify-content: center;
+    align-items: center;
 }
 
 .fp-box li{
@@ -68,7 +73,8 @@ export default {
         height: 70px;
         flex-direction: column;
         transition: transform 1s ease-in-out;
-        list-style-type:none
+        list-style-type:none;
+        margin:0 5px
 }
 
 .fp-box li::marker{
