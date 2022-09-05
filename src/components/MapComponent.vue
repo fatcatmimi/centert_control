@@ -2,7 +2,7 @@
     <div class="container">
         <div class="title">{{ title }}</div>
         <div class="main_area">
-            <div :id="mapId" style="width:550px;height:260px;"></div>
+            <div :id="mapId" style="width:630px;height:260px;"></div>
         </div>
     </div>
 </template>
@@ -31,10 +31,10 @@ export default {
             return legend.map((item) => {
                 let data = [] 
                 let area = []
-                switch (item) { 
-                    case '实际值':
-                        data = _.compact(this.mapData.data.realValue);
-                        area = [
+
+                if(item == '今日' || item == '实际值'){
+                    data = item == '今日' ? _.compact(this.mapData.data.today) : _.compact(this.mapData.data.realValue)
+                    area = [
                             {
                                 offset: 0,
                                 color: "rgba(98,90,150,.7)",
@@ -44,12 +44,9 @@ export default {
                                 color: "rgba(98,90,150,0)",
                             },
                         ]
-                        break;
-                    case '参考线':    
-                    case '监控值下限':
-                        data = this.mapData.data.goal;
-                
-                        area = [
+                }else if(item == '前日'||item == '参考线' || item == '监控值下限'){
+                    data = item == '前日'?this.mapData.data.beforeYesterday:this.mapData.data.goal;
+                    area = [
                             {
                                 offset: 0,
                                 color: "rgba(0,107,170,1)",
@@ -59,9 +56,8 @@ export default {
                                 color: "rgba(0,107,170,0)",
                             },
                         ]
-                        break;
-                    case '监控值上限':
-                        data = this.mapData.data.goalHigh;
+                }else if(item == '昨日'||item == '监控值上限'){
+                        data = item == '昨日'?this.mapData.data.yesterday:this.mapData.data.goalHigh;
                         area = [
                             {
                                 offset: 0,
@@ -72,8 +68,9 @@ export default {
                                 color: "rgba(255, 255,20, 0)",
                             },
                         ] 
-                        break;
                 }
+
+
                 return {
                     name: item,
                     type: 'line',
@@ -116,6 +113,18 @@ export default {
                                 return that._getSeries(this.legend)
                             }
                         }
+                        break;
+                    case 'receive_money_every_hour':
+                    case 'receive_money_sum_hour':
+                          op = {
+                            color:['rgba(253,1,104,1)', 'rgba(1,202,254,1)', 'rgba(255,255,20,1)'],
+                            legend: ['今日', '昨日','前日' ],
+                            XYname: ['小时', '单位:万元'],
+                            series: function () {
+                                return that._getSeries(this.legend)
+                            }
+                        }
+                        break;
                 }
 
                 return op
@@ -148,7 +157,7 @@ export default {
 
                 },
                 grid: {
-                    left: '3%',
+                    left: '5%',
                     bottom: '3%',
                     containLabel: true
                 },
@@ -164,7 +173,7 @@ export default {
                             fontSize: 12,
 
                         },
-                        data: this.mapData.data.sdate,
+                        data: this.mapData.data.sdate || this.mapData.data.hTime,
                         axisLabel: {
                             color: 'rgb(65, 211, 253)',
                             rotate: '65'
@@ -216,18 +225,29 @@ export default {
             this.myChart = this.$echarts.init(document.getElementById(this.mapId))
             const option = this.echartsConfig(this.mapId)
             option && this.myChart.setOption(option);
+
+            if(this.mapId=='accumulated_sales' || this.mapId=='accumulated_sales_degree'){
+                this.myChart.group = 'group1'
+            }else if(this.mapId=='daily_sales' || this.mapId=='daily_sales_degree'){
+                this.myChart.group = 'group2'
+            }
         },
         toolTipString(params) { 
             this.sDate = params[0].axisValue
-            
-            let _s = `${this.sDate.slice(0, 4)}-${this.sDate.slice(4, 6)}-${this.sDate.slice(6, 8)}`
-            let week = getWeek(_s)
-
+            let _s = '';
+            let week = ''
+            if(this.sDate.length>2){
+                 _s = `${this.sDate.slice(0, 4)}-${this.sDate.slice(4, 6)}-${this.sDate.slice(6, 8)}`
+                 week = getWeek(_s)
+            }else{
+                  _s = this.sDate + '点'
+                 week = ''
+            }
             this.toolTip = (toolTipWidth=400,getHeader,getBody) => { 
                 return `
                     <div style="width:${toolTipWidth}px;background:url(${backImg})no-repeat center;background-size:100% 100%;">
                         <div style="height:100%;padding:20px">
-                            <div style="font-size:18px;font-weight:bold">${_s} (${week}) </div>
+                            <div style="font-size:18px;font-weight:bold">${_s} ${week}</div>
                             <hr/>
                             <table table style = "width:100%; border-collapse:separate; border-spacing:5px;" >
                                 ${getHeader()}
@@ -269,13 +289,13 @@ export default {
                         const arrow = up_or_down == 0 ? '-' : up_or_down < 100 ? '<i class="el-icon-caret-bottom" style="color:#67C23A"></i>' : '<i class="el-icon-caret-top" style="color:#F56C6C"></i>'
                         let html = `   
                             <tr>
-                                <td style="text-align:right;width:100px">监控值下限:</td><td>${detail[_index][1]}</td>
+                                <td style="text-align:right;width:100px">监控值下限:</td><td style="text-align:right">${detail[_index][1]}</td>
                             </tr>
                             <tr>
-                                <td style="text-align:right;width:100px">监控值上限:</td><td>${detail[_index][2]}</td>
+                                <td style="text-align:right;width:100px">监控值上限:</td><td style="text-align:right">${detail[_index][2]}</td>
                             </tr>
-                            <tr><td style="text-align:right;width:100px">实际值:</td><td>${detail[_index][3]}</td></tr>
-                            <tr><td style="text-align:right;width:100px">涨跌幅:</td><td>${up_or_down}%</td><td style="text-align:left">${arrow}</td></tr>
+                            <tr><td style="text-align:right;width:100px">实际值:</td><td style="text-align:right">${detail[_index][3]}</td></tr>
+                            <tr><td style="text-align:right;width:100px">涨跌幅:</td><td style="text-align:right">${up_or_down}%</td><td style="text-align:left">${arrow}</td></tr>
                         `
                         return html;
                     })
@@ -295,19 +315,44 @@ export default {
                             </tr>
                             <tr>
                                 <td style="text-align:right;width:100px">实际线:</td><td>${detail[_index][2]}%</td>
-                            </tr>
-                
+                            </tr>                
                         `
                         return html;
                     })
-            }
+
+
+                case 'receive_money_sum_hour':
+                case 'receive_money_every_hour':   
+                    return this.toolTip(250, () => {
+                        return ''
+                    }, () => {
+                        const detail = _.zip(this.mapData.data.hTime, this.mapData.data.today, this.mapData.data.beforeYesterday, this.mapData.data.yesterday)
+
+                        let _index = _.findIndex(detail, (item) => {
+                            return item[0] == this.sDate
+                        })
+                        let html = `   
+                            <tr>
+                                <td style="text-align:right;width:100px">今日:</td><td style="text-align:left">${detail[_index][1]||'-'}</td>
+                            </tr>
+                            <tr><td style="text-align:right;width:100px">昨日:</td><td style="text-align:left">${detail[_index][3]}</td></tr>
+                            <tr>
+                                <td style="text-align:right;width:100px">前日:</td><td style="text-align:left">${detail[_index][2]}</td>
+                            </tr>
+                            
+                        `
+                        return html;
+                    })
+
+                }
         },
     },
     mounted() {
         if (this.mapData) { 
             this.getLoadEcharts()
         }
-        
+        this.$echarts.connect('group1')
+        this.$echarts.connect('group2')
     },  
     watch: {
         mapData: {

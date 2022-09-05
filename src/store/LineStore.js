@@ -4,7 +4,13 @@ import _ from 'lodash'
 function getAllPromise(sdate, actId, deptId) {
     let allPromise = [];
     for (let key in ModelIdConfig) {
-        allPromise.push(getLine('/get_line_graphs_day_data',
+        let url = '/get_line_graphs_day_data'
+        if (key == 'receive_money_sum_hour') {
+            url = '/get_line_graphs_hour_data'
+        } else if (key == 'receive_money_every_hour') {
+            url = '/get_line_graphs_hour_data'
+        }
+        allPromise.push(getLine(url,
             'get', { sdate, deptId, actId, modelId: ModelIdConfig[key] })
         )
     }
@@ -56,8 +62,12 @@ export default {
 function getDegreeData(degreeDate) {
     if (JSON.stringify(degreeDate.data) != '{}') {
         let realValue = _.zipWith(degreeDate.data.goal, _.compact(degreeDate.data.realValue), (goal, realValue) => {
+            if (realValue) {
+                return (realValue / goal * 100).toFixed(0)
+            } else {
+                return '-'
+            }
 
-            return (realValue / goal * 100).toFixed(0)
         })
 
         let goal = Array(degreeDate.data.sdate.length);

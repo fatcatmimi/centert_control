@@ -152,6 +152,21 @@
                         <MapComponent title="累计收钱" mapId='accumulated_collection' :mapData="accumulated_collection" />
                     </dv-border-box-10>
                 </div>
+
+                <div class="content">
+                    <dv-border-box-10 title="dv-border-box-11">
+                        <MapComponent title="收钱(按小时累计)" mapId='receive_money_sum_hour'
+                            :mapData="receive_money_sum_hour" />
+                    </dv-border-box-10>
+                </div>
+
+                <div class="content">
+                    <dv-border-box-10 title="dv-border-box-11">
+                        <MapComponent title="收钱(每小时)" mapId='receive_money_every_hour'
+                            :mapData="receive_money_every_hour" />
+                    </dv-border-box-10>
+                </div>
+                <div class="content"></div>
             </div>
         </div>
     </div>
@@ -184,18 +199,11 @@ export default {
     mounted() {
         this.sdate = this.sdate
         this.actId = this.actId
-        // this.getAllData().then(data => {
-        //   this.$store.dispatch(`${StoreConst.TableStore}/tableData`, [data[0], data[1]])
-        // })
+
         this.createWebSocket()
         this.tableData({ sdate: this.sdate, actId: this.actId })
         this.lineData({ sdate: this.sdate, actId: this.actId })
 
-
-        // console.log(typeof 'aaa')
-        //组件加载 发送请求获取数据
-        // this.$store.dispatch('getData', '2022-08-04')
-        // this.getData('2022-08-04')
     },
     methods: {
         ...mapActions(`${StoreConst.TableStore}`, ['tableData']),
@@ -210,7 +218,8 @@ export default {
     },
     computed: {
         ...mapState(`${StoreConst.CardStore}`, ['cardData']),
-        ...mapState(`${StoreConst.LineStore}`, ['course', 'A0', 'buy_after_course', 'accumulated_sales', 'daily_sales', 'daily_collection','accumulated_collection']),
+        ...mapState(`${StoreConst.LineStore}`, ['course', 'A0', 'buy_after_course', 'accumulated_sales', 'daily_sales', 'daily_collection',
+                                                'accumulated_collection','receive_money_sum_hour','receive_money_every_hour']),
         ...mapState(`${StoreConst.TableStore}`, ['sourceCompleteTableData']),
 
         /**获取state的2种方法，在这没什么特别原因，就是用一下getters*/

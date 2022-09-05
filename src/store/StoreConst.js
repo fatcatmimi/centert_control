@@ -16,8 +16,8 @@ export const ModelIdConfig = {
     accumulated_sales: 18,   //累计销售额
     daily_sales: 19,//每日销售额
     daily_collection: 25,   //每日收钱
-    accumulated_collection: 24  //累计收钱   
-    //收钱（按小时累计）  29
-    //收钱(按小时)  28
+    accumulated_collection: 24,  //累计收钱   
+    receive_money_sum_hour: 29,//收钱（按小时累计）  29
+    receive_money_every_hour: 28//收钱(按小时)  28
 
 }
