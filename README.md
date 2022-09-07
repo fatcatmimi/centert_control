@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # centert_control
 中控
 =======

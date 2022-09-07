@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="部门完成度">
+                    <dv-border-box-10>
                         <TableComponent title="部门完成度" :table-data="deptData">
                             <el-table-column prop="deptId" label="单位" width="60" align="center">
                             </el-table-column>
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="工作量">
+                    <dv-border-box-10 >
                         <TableComponent title="工作量人均" :table-data="worksData">
                             <el-table-column prop="deptId" label="单位" width="100" align="center">
                             </el-table-column>
@@ -82,7 +82,7 @@
                     </dv-border-box-10>
                 </div>
                 <div class="content">
-                    <dv-border-box-10 title="资源完成度">
+                    <dv-border-box-10 >
                         <TableComponent title="资源完成度" :table-data="sourceCompleteTableData">
                             <el-table-column prop="sourceId" label="资源类型" width="100" align="center">
                             </el-table-column>
@@ -110,58 +110,58 @@
                     </dv-border-box-10>
                 </div>
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10 >
                         <MapComponent title="课后自助购买" mapId='buy_after_course' :mapData="buy_after_course" />
                     </dv-border-box-10>
                 </div>
 
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10>
                         <MapComponent title="累计销售额" mapId='accumulated_sales' :mapData="accumulated_sales" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10 >
                         <MapComponent title="每日销售额" mapId='daily_sales' :mapData="daily_sales" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10>
                         <MapComponent title="每日收钱" mapId='daily_collection' :mapData="daily_collection" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10 >
                         <MapComponent title="累计销售额完成度" mapId='accumulated_sales_degree'
                             :mapData="accumulated_sales_degree" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10>
                         <MapComponent title="每日销售额完成度" mapId='daily_sales_degree' :mapData="daily_sales_degree" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10>
                         <MapComponent title="累计收钱" mapId='accumulated_collection' :mapData="accumulated_collection" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10 >
                         <MapComponent title="收钱(按小时累计)" mapId='receive_money_sum_hour'
                             :mapData="receive_money_sum_hour" />
                     </dv-border-box-10>
                 </div>
 
                 <div class="content">
-                    <dv-border-box-10 title="dv-border-box-11">
+                    <dv-border-box-10>
                         <MapComponent title="收钱(每小时)" mapId='receive_money_every_hour'
                             :mapData="receive_money_every_hour" />
                     </dv-border-box-10>
