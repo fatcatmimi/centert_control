@@ -5,11 +5,13 @@ export default {
     CardStore: 'card',              //上方小面板的store
     TurnOverStore: 'turnOver',         //实时开户人数store
     TableStore: 'table',             //所有表格数据
-    LineStore: 'line'               //所有线图表格
+    LineStore: 'line',              //所有线图表格
+    BallStore: 'ball'  //小球
 }
 
 
 export const ModelIdConfig = {
+    ball: 27,
     course: 4,    //听课
     A0: 6, //累计A0成单
     buy_after_course: 23,   //课后自助购买

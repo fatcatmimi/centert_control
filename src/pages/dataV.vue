@@ -20,7 +20,7 @@
             <div class="main">
                 <div class="content">
                     <dv-border-box-10>
-                        <BallComponent />
+                        <BallComponent :twoBallData="twoBallData"/>
                     </dv-border-box-10>
 
                 </div>
@@ -203,11 +203,13 @@ export default {
         this.createWebSocket()
         this.tableData({ sdate: this.sdate, actId: this.actId })
         this.lineData({ sdate: this.sdate, actId: this.actId })
+        this.ballData({ sdate: this.sdate, actId: this.actId })
 
     },
     methods: {
         ...mapActions(`${StoreConst.TableStore}`, ['tableData']),
         ...mapActions(`${StoreConst.LineStore}`, ['lineData']),
+        ...mapActions(`${StoreConst.BallStore}`, ['ballData']),
 
         tformat(row, column, cellValue, index) {
             return this.$options.filters.thounds(cellValue)
@@ -221,6 +223,7 @@ export default {
         ...mapState(`${StoreConst.LineStore}`, ['course', 'A0', 'buy_after_course', 'accumulated_sales', 'daily_sales', 'daily_collection',
                                                 'accumulated_collection','receive_money_sum_hour','receive_money_every_hour']),
         ...mapState(`${StoreConst.TableStore}`, ['sourceCompleteTableData']),
+        ...mapState(`${StoreConst.BallStore}`, ['twoBallData']),
 
         /**获取state的2种方法，在这没什么特别原因，就是用一下getters*/
         ...mapGetters(`${StoreConst.TableStore}`, ['deptData', 'worksData']),

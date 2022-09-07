@@ -8,6 +8,7 @@ import CardStore from './CardStore'
 import TableStore from './TableStore'
 import LineStore from './LineStore'
 import BaseStore from './BaseStore'
+import BallStore from '@/store/BallStore'
 
 Vue.use(Vuex)
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
         [StoreConst.TableStore]: TableStore,
         [StoreConst.LineStore]: LineStore,
         [StoreConst.BaseStore]: BaseStore,
+        [StoreConst.BallStore]: BallStore
     }
 })

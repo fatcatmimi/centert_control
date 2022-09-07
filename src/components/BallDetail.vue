@@ -2,7 +2,7 @@
      <div class="ball-main">
          <div class="ball">
              <div class="content-text">
-                 <div class="person"> {{ person | thounds }}人</div>
+                 <div class="person"> {{ person | thounds }}万元</div>
                  <div class="dgree">{{ degree }}%</div>
              </div>
              <img src="../assets/img/effect_n3.png" alt="" width="200px" height="150px">

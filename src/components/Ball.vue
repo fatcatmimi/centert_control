@@ -3,14 +3,14 @@
         <div class="title">销售情况</div>
         <div class="border">
             <dv-border-box-8>
-                <div>本期总任务 {{ 54823 | thounds }} 人</div>
-                <div>实际完成 0 人</div>
+                <div>本期总任务 {{ twoBallData.mission.amendMoney | thounds }} 万元</div>
+                <div>实际完成 {{ twoBallData.mission.realMoney | thounds }} 万元</div>
             </dv-border-box-8>
         </div>
 
         <div class="ball-area">
-            <BallDetail text='昨日预测完成度' person="5100" degree="107" />
-            <BallDetail text='今日预测完成度' person='4600' degree="110" />
+            <BallDetail text='昨日预测完成度' :person="twoBallData.yesterday.forecast" :degree="twoBallData.yesterday.realMoneyForecast" />
+            <BallDetail text='今日预测完成度' :person="twoBallData.today.forecast" :degree="twoBallData.today.realMoneyForecast"  />
         </div>
     </div>
 </template> 
@@ -22,12 +22,13 @@
 import BallDetail from './BallDetail.vue'
 export default {
     name: "BallComponentll",
+    props:['twoBallData'],
     components: { 
         BallDetail
-    }
+   }
 }
-</script>
 
+</script>
 <style scoped>
     .container{
         height:100%;
