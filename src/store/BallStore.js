@@ -7,15 +7,12 @@ export default {
             const modelId = ModelIdConfig.ball
             const getData = getBallData('/get_figure_graphs_ball_data', 'get', { sdate, deptId, actId, modelId })
             getData.then(data => {
-                console.log(data)
                 context.commit('SETDATA', data.data)
-
             })
         }
     },
     mutations: {
         SETDATA(state, val) {
-            console.log(state, val)
             state.twoBallData = val
         }
     },

@@ -22,12 +22,12 @@ const routes = [
         })
     },
     {
-        path: '/dataV/:sz/:sdate/:actId',
+        path: '/dataV/:sz/:searchType/:actId',
         name: 'DataV',
         component: DataVComponent,
         props: route => ({
             stype: route.params.sz,
-            sdate: route.params.sdate,
+            searchType: route.params.searchType,
             actId: route.params.actId
         })
     },

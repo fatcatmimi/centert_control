@@ -18,16 +18,17 @@ export default {
             }).catch(() => {
                 context.commit('SETDATA', [])
             })
-        }
+        },
     },
     mutations: {
         SETDATA: function (state, val) {
             state.sourceList = val[0]?.data
             state.deptList = val[1]?.data
-        }
+        },
     },
     state: {
         deptList: {},
-        sourceList: {}
-    }
+        sourceList: {},
+        sdate: new Date()
+    },
 }

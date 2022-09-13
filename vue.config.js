@@ -9,7 +9,7 @@ module.exports = defineConfig({
   // }
   devServer: {
     // open: ['#/znz/sz/20220818/203'],
-    open: ['#/dataV/sz/20220905/203'],
+    open: ['#/dataV/sz/all/203'],
     host: 'localhost',
 
     // proxy: {
