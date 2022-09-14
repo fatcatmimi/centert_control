@@ -33,3 +33,13 @@ export function createWebSocket(url) {
         console.log(e)
     }
 }
+
+
+export function dateFormatString(value) {
+    const _t = value ? new Date(value) : new Date();
+    const year = _t.getFullYear()
+    const month = _t.getMonth() + 1 < 10 ? '0' + (_t.getMonth() + 1) : (_t.getMonth() + 1)
+    const day = _t.getDate() < 10 ? '0' + _t.getDate() : _t.getDate()
+
+    return `${year}-${month}-${day}`
+}

@@ -11,18 +11,18 @@ const DataVComponent = () => import('../pages/dataV')
 const NotFoundComponent = () => import('../pages/404')
 
 const routes = [
+    // {
+    //     path: '/znz/:sz/:sdate/:actId',
+    //     name: 'Sz',
+    //     component: SzComponent,
+    //     props: route => ({
+    //         stype: route.params.sz,
+    //         sdate: route.params.sdate,
+    //         actId: route.params.actId
+    //     })
+    // },
     {
-        path: '/znz/:sz/:sdate/:actId',
-        name: 'Sz',
-        component: SzComponent,
-        props: route => ({
-            stype: route.params.sz,
-            sdate: route.params.sdate,
-            actId: route.params.actId
-        })
-    },
-    {
-        path: '/dataV/:sz/:searchType/:actId',
+        path: '/znz/:sz/:searchType/:actId',
         name: 'DataV',
         component: DataVComponent,
         props: route => ({

@@ -92,18 +92,19 @@
                     </dv-border-box-10>
                 </div>
 
-                <div class="content">
+                <div class="content" v-if="isShow">
                     <dv-border-box-10>
-                        <MapComponent title="听课" mapId='listen_course' :mapData="course" />
+                        <MapComponent title="每日收钱" mapId='daily_collection' :mapData="daily_collection" />
                     </dv-border-box-10>
                 </div>
 
-                <div class="content">
+                <div class="content" v-if="isShow">
                     <dv-border-box-10>
-                        <MapComponent title="累计A0含成单" mapId='A0' :mapData="A0" />
+                        <MapComponent title="累计收钱" mapId='accumulated_collection' :mapData="accumulated_collection" />
                     </dv-border-box-10>
                 </div>
-                <div class="content">
+
+                <div class="content" v-if="isShow">
                     <dv-border-box-10>
                         <MapComponent title="课后自助购买" mapId='buy_after_course' :mapData="buy_after_course" />
                     </dv-border-box-10>
@@ -124,9 +125,10 @@
 
                 <div class="content">
                     <dv-border-box-10>
-                        <MapComponent title="每日收钱" mapId='daily_collection' :mapData="daily_collection" />
+                        <MapComponent title="听课" mapId='listen_course' :mapData="course" />
                     </dv-border-box-10>
                 </div>
+
 
                 <div class="content">
                     <dv-border-box-10>
@@ -140,21 +142,21 @@
                         <MapComponent title="每日销售额完成度" mapId='daily_sales_degree' :mapData="daily_sales_degree" />
                     </dv-border-box-10>
                 </div>
-
                 <div class="content">
                     <dv-border-box-10>
-                        <MapComponent title="累计收钱" mapId='accumulated_collection' :mapData="accumulated_collection" />
+                        <MapComponent title="累计A0含成单" mapId='A0' :mapData="A0" />
                     </dv-border-box-10>
                 </div>
 
-                <div class="content">
+
+                <div class="content" v-if="isShow">
                     <dv-border-box-10>
                         <MapComponent title="收钱(按小时累计)" mapId='receive_money_sum_hour'
                             :mapData="receive_money_sum_hour" />
                     </dv-border-box-10>
                 </div>
 
-                <div class="content">
+                <div class="content" v-if="isShow">
                     <dv-border-box-10>
                         <MapComponent title="收钱(每小时)" mapId='receive_money_every_hour'
                             :mapData="receive_money_every_hour" />
@@ -176,13 +178,13 @@ import CardComponent from '@/components/Card';
 
 import MapComponent from '@/components/MapComponent.vue';
 import TableComponent from '@/components/TableComponent.vue';
-import { createWebSocket } from '@/tools/common'
+import { createWebSocket, dateFormatString } from '@/tools/common'
 
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 import StoreConst from '@/store/StoreConst'
 export default {
-    props: ['stype', 'actId'],
+    props: ['searchType', 'actId'],
     components: {
         BallComponent,
         TurnOverComponent,
@@ -191,26 +193,59 @@ export default {
         TableComponent,
         MapComponent
     },
+    data() {
+        return {
+            isShow: this.searchType == 'all' ? true : false
+        }
+    },
     created() {
-        this.$bus.$on('searchData', (sdate) => {
-            sdate = sdate.replace(/-/g, '')
-            this.initData(sdate)
+        this.$bus.$on('searchData', () => {
+            this.initData()
+        })
+
+        switch (this.searchType) {
+            case 'all':
+                this.$store.state.base.searchCondition = {
+                    deptId: 0,
+                    deptName: ''
+                }
+                break;
+            case 'zj':
+                this.$store.state.base.searchCondition = {
+                    deptId: 11,
+                    deptName: '云集中心一'
+                }
+                break;
+            case 'jl':
+                this.$store.state.base.searchCondition = {
+                    deptId: 7151,
+                    deptName: '云集一部武泽佳'
+                }
+                break
+            default:
+                console.error('获取类型失败')
+        }
+        Object.assign(this.$store.state.base.searchCondition, {
+            sdate: dateFormatString(),
+            searchType: this.searchType
         })
     },
     mounted() {
-        this.actId = this.actId
         this.createWebSocket()
+        this.initData()
     },
     methods: {
         ...mapActions(`${StoreConst.TableStore}`, ['tableData']),
         ...mapActions(`${StoreConst.LineStore}`, ['lineData']),
         ...mapActions(`${StoreConst.BallStore}`, ['ballData']),
-        ...mapActions(`${StoreConst.BaseStore}`, ['baseData']),
+        ...mapActions(`${StoreConst.BaseStore}`, ['baseData', 'setDeptId']),
 
-        initData(sdate) {
-            this.tableData({ sdate, actId: this.actId })
-            this.lineData({ sdate, actId: this.actId })
-            this.ballData({ sdate, actId: this.actId })
+        initData() {
+            let { sdate, deptId } = this.$store.state.base.searchCondition
+            sdate = sdate.replace(/-/g, '')
+            this.tableData({ sdate, actId: this.actId, deptId })
+            this.lineData({ sdate, actId: this.actId, deptId })
+            this.ballData({ sdate, actId: this.actId, deptId })
             this.baseData(sdate)
         },
 
