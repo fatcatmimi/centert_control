@@ -273,19 +273,6 @@ export default {
 }
 
 
-
-.main .content .data_area {
-    /* width:90%;
-        height:80%;
-        border:1px solid green; */
-    /* position:absolute;
-        top:50px;
-        left:5%;
-        display:flex;
-        justify-content: space-around;
-        align-items: center */
-}
-
 .border {
     position: relative;
     font-size: 12px;
